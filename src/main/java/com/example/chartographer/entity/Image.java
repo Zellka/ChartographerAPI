@@ -1,22 +1,23 @@
 package com.example.chartographer.entity;
 
-import org.hibernate.annotations.GenericGenerator;
+import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-@Entity
 public class Image {
-    @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+
     private String id;
     private Long width;
     private Long height;
-    private String path;
+    private List<Fragment> fragments;
 
     public Image() {
+    }
+
+    public List<Fragment> getFragments() {
+        return fragments;
+    }
+
+    public void setFragments(List<Fragment> fragments) {
+        this.fragments = fragments;
     }
 
     public String getId() {
@@ -41,13 +42,5 @@ public class Image {
 
     public void setHeight(Long height) {
         this.height = height;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 }

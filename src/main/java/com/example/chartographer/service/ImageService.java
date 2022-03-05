@@ -5,13 +5,11 @@ import com.example.chartographer.exception.ImageBadRequestException;
 import com.example.chartographer.exception.ImageNotFoundException;
 import com.example.chartographer.model.ImageId;
 import com.example.chartographer.repository.ImageRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ImageService {
 
-    @Autowired
     private ImageRepository repository;
 
     public ImageId createImage(Long width, Long height) throws ImageBadRequestException {
@@ -19,7 +17,6 @@ public class ImageService {
         if ((width > 0 && width <= 20000) && (height > 0 && height <= 50000)) {
             image.setWidth(width);
             image.setHeight(height);
-            image.setPath("path");
         } else {
             throw new ImageBadRequestException("Данные некорректны");
         }
@@ -28,9 +25,9 @@ public class ImageService {
 
     public Image saveFragmentImage(String id, Integer x, Integer y, Long width, Long height) throws ImageNotFoundException, ImageBadRequestException {
         Image image;
-        if (repository.findById(id).isPresent()) {
+        if (repository.findById(id) != null) {
             if ((width > 0 && width <= 20000) && (height > 0 && height <= 50000)) {
-                image = repository.findById(id).get();
+                image = repository.findById(id);
                 image.setWidth(width);
                 image.setHeight(height);
             } else {
@@ -44,9 +41,9 @@ public class ImageService {
 
     public Image getImage(String id, Integer x, Integer y, Long width, Long height) throws ImageNotFoundException, ImageBadRequestException {
         Image image;
-        if (repository.findById(id).isPresent()) {
+        if (repository.findById(id) != null) {
             if ((width > 0 && width <= 20000) && (height > 0 && height <= 50000)) {
-                image = repository.findById(id).get();
+                image = repository.findById(id);
             } else {
                 throw new ImageBadRequestException("Данные некорректны");
             }
@@ -58,8 +55,8 @@ public class ImageService {
 
     public void deleteImage(String id) throws ImageNotFoundException {
         Image image;
-        if (repository.findById(id).isPresent()) {
-            image = repository.findById(id).get();
+        if (repository.findById(id) != null) {
+            image = repository.findById(id);
             repository.delete(image);
         } else {
             throw new ImageNotFoundException();
