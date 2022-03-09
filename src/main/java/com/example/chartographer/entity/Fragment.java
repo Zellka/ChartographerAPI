@@ -2,36 +2,32 @@ package com.example.chartographer.entity;
 
 public class Fragment {
 
-    private Integer id;
-    private Long width;
-    private Long height;
+    private String path;
+    private Integer width;
+    private Integer height;
     private Integer x;
     private Integer y;
 
-    public Fragment() {
+    public Fragment(Integer width, Integer height, Integer x, Integer y) {
+        this.width = width;
+        this.height = height;
+        this.x = x;
+        this.y = y;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Long getWidth() {
+    public Integer getWidth() {
         return width;
     }
 
-    public void setWidth(Long width) {
+    public void setWidth(Integer width) {
         this.width = width;
     }
 
-    public Long getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
-    public void setHeight(Long height) {
+    public void setHeight(Integer height) {
         this.height = height;
     }
 
@@ -58,6 +54,4 @@ public class Fragment {
     public void setPath(String path) {
         this.path = path;
     }
-
-    private String path;
 }

@@ -4,8 +4,11 @@ import com.example.chartographer.exception.ImageBadRequestException;
 import com.example.chartographer.exception.ImageNotFoundException;
 import com.example.chartographer.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/chartas")
@@ -15,20 +18,20 @@ public class ImageController {
     private ImageService service;
 
     @PostMapping("/")
-    public ResponseEntity createImage(@RequestParam Long width, @RequestParam Long height) {
+    public ResponseEntity createImage(@RequestParam Integer width, @RequestParam Integer height) {
         try {
-            return ResponseEntity.ok(service.createImage(width, height));
+            return new ResponseEntity<>(service.createImage(width, height), HttpStatus.CREATED);
         } catch (ImageBadRequestException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
+        } catch (IOException e) {
             return ResponseEntity.badRequest().body("Ошибка");
         }
     }
 
-    @PostMapping("/{id}/")
-    public ResponseEntity saveFragmentImage(@PathVariable String id, @RequestParam Integer x, @RequestParam Integer y, @RequestParam Long width, @RequestParam Long height) {
+    @PostMapping(value = "/{id}/", consumes = "image/bmp")
+    public ResponseEntity saveFragmentImage(@PathVariable Integer id, @RequestParam Integer x, @RequestParam Integer y, @RequestParam Integer width, @RequestParam Integer height, @RequestBody byte[] image) {
         try {
-            service.saveFragmentImage(id, x, y, width, height);
+            service.saveFragmentImage(id, image, x, y, width, height);
             return ResponseEntity.ok("Восстановленный фрагмент сохранён");
         } catch (ImageNotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -39,10 +42,11 @@ public class ImageController {
         }
     }
 
-    @GetMapping("/{id}/")
-    public ResponseEntity getImage(@PathVariable String id, @RequestParam Integer x, @RequestParam Integer y, @RequestParam Long width, @RequestParam Long height) {
+    @GetMapping(value = "/{id}/", produces = "image/bmp")
+    public ResponseEntity getImage(@PathVariable Integer id, @RequestParam Integer x, @RequestParam Integer y, @RequestParam Integer width, @RequestParam Integer height) {
         try {
-            return ResponseEntity.ok(service.getImage(id, x, y, width, height));
+            byte[] image = service.getImage(id, x, y, width, height);
+            return new ResponseEntity<>(image, HttpStatus.OK);
         } catch (ImageBadRequestException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (ImageNotFoundException e) {
@@ -52,8 +56,8 @@ public class ImageController {
         }
     }
 
-    @DeleteMapping("/{id}/")
-    public ResponseEntity deleteImage(@PathVariable String id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteImage(@PathVariable Integer id) {
         try {
             service.deleteImage(id);
             return ResponseEntity.ok("Изображение удалено");

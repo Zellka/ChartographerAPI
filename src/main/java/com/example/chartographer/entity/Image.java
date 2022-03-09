@@ -4,9 +4,9 @@ import java.util.List;
 
 public class Image {
 
-    private String id;
-    private Long width;
-    private Long height;
+    private Integer id;
+    private Integer width;
+    private Integer height;
     private List<Fragment> fragments;
 
     public Image() {
@@ -20,27 +20,27 @@ public class Image {
         this.fragments = fragments;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getWidth() {
+    public Integer getWidth() {
         return width;
     }
 
-    public void setWidth(Long width) {
+    public void setWidth(Integer width) {
         this.width = width;
     }
 
-    public Long getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
-    public void setHeight(Long height) {
+    public void setHeight(Integer height) {
         this.height = height;
     }
 }

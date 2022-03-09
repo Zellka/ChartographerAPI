@@ -3,9 +3,10 @@ package com.example.chartographer.repository;
 import com.example.chartographer.entity.Image;
 
 public interface ImageRepository {
-    Image findById(String id);
 
-    Image save(Image image);
+    Image getImage(Integer id);
 
-    void delete(Image image);
+    Image saveImage(Image image);
+
+    void deleteImage(Integer id);
 }
