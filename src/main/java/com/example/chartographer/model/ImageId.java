@@ -7,7 +7,7 @@ public class ImageId {
 
     public static ImageId toModel(Image entity) {
         ImageId model = new ImageId();
-        model.setId(entity.getId());
+        model.setId(entity.getId().toString());
         return model;
     }
 
