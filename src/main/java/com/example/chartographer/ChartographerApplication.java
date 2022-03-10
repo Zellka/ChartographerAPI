@@ -12,13 +12,10 @@ public class ChartographerApplication {
     public static String path;
 
     public static void main(String[] args) throws IOException {
-        //path = args[0];
-        path = "images";
+        path = args[0];
         Path imagePath = Path.of(path);
-
-        if (!Files.exists(imagePath)) {
+        if (!Files.exists(imagePath))
             Files.createDirectories(imagePath);
-        }
         SpringApplication.run(ChartographerApplication.class, args);
     }
 }
